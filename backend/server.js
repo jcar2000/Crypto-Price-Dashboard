@@ -6,8 +6,6 @@ const index = require("./index.js");
 const WebSocket = require("ws");
 
 const app = express();
-app.use(index);
-
 const server = http.createServer(app);
 const io = socketIO(server, { 
     cors: {
@@ -15,14 +13,21 @@ const io = socketIO(server, {
     }
  });
 
+app.use(index);
+
+// WEBSOCKET ///////////////////////////////////////////////////////////////////////
+let bitmexBTCMarket = 0;
+let bitmexBTC24Volume = 0;
 
 io.on("connection", (socket) => {
-    
+    io.emit("initBitmexBTCMarketPrice", bitmexBTCMarket);
+    io.emit("initBitmexBTC24hVolume", bitmexBTC24Volume);
 });
 
 function createBitmexSubscriptions() {
     let ws = new WebSocket('wss://www.bitmex.com/realtime');
 
+    // OPEN
     ws.onopen = function () {
         let btcPrice = {
             "op": "subscribe",
@@ -32,15 +37,23 @@ function createBitmexSubscriptions() {
         ws.send(JSON.stringify(btcPrice));
     }
 
+    // MESSAGE
     ws.onmessage = function (message) {
         message = JSON.parse(message.data);
         if ('data' in message) {
             if ('markPrice' in message.data[0]) {
-                io.emit("marketPrice", message.data[0].markPrice);
-            }   
+                bitmexBTCMarket = message.data[0].markPrice;
+                io.emit("bitmexMarketPrice", message.data[0].markPrice);
+            }
+
+            if ('volume24h' in message.data[0]) {
+                bitmexBTC24Volume = message.data[0].volume24h;
+                io.emit("bitmex24Volume", message.data[0].volume24h);
+            }
         }
     }
 
+    // CLOSE
     ws.onclose = function () {
 
     }

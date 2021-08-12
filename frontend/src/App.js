@@ -8,16 +8,16 @@ function App() {
   const [bitmexPrice, setBitmexPrice] = useState(0);
   
   useEffect(() => {
-    socket.on("initBitmex", price => {
+    socket.on("marketPrice", price => {
       console.log('recieved message');
-      setNumber(price);
+      setBitmexPrice(price);
     });
   }, []);  
   
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Current Number : ${number}</h1>
+        <h1>Current Bitmex Price : ${bitmexPrice}</h1>
       </header>
     </div>
   );

@@ -1,22 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import socketIOClient from "socket.io-client";
+//import './App.css';
+const ENDPOINT = "localhost:3001";
+const socket = socketIOClient(ENDPOINT);
 
 function App() {
+  const [bitmexPrice, setBitmexPrice] = useState(0);
+  
+  useEffect(() => {
+    socket.on("initBitmex", price => {
+      console.log('recieved message');
+      setNumber(price);
+    });
+  }, []);  
+  
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Current Number : ${number}</h1>
       </header>
     </div>
   );

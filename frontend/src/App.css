@@ -5,9 +5,11 @@ body {
 
 .card {
   background-color: #3a4959 !important;
-  width: 20%;
+  width: 22%;
   text-align: center;
   box-shadow: 5px 5px 10px #192027;
+  display: inline-flex;
+  margin: 0 3% 3% 0;
 }
 
 h1 {
@@ -18,6 +20,12 @@ h1 {
   display: flexbox;
 }
 
-.exchangesDiv {
-  margin: 3% 0 0 5%;
+.exchangesContainer {
+  margin: 3% 3% 0 5%;
+}
+
+.linkImage {
+  width: 7%;
+  height: 7%;
+  float: right;
 }

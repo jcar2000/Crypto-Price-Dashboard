@@ -2,7 +2,7 @@ const express = require("express");
 const http = require("http");
 const socketIO = require("socket.io");
 const port = process.env.Port || 3001;
-const index = require("./index.js");
+//const index = require("./index.js");
 const WebSocket = require("ws");
 
 const app = express();
@@ -13,15 +13,20 @@ const io = socketIO(server, {
     }
  });
 
-app.use(index);
+//app.use(index);
 
 // WEBSOCKET ///////////////////////////////////////////////////////////////////////
-let bitmexBTCMarket = 0;
-let bitmexBTC24Volume = 0;
+
+let bitmexBTCData = {
+    marketPrice : 0,
+    askPrice : 0,
+    volume24h : 0
+};
 
 io.on("connection", (socket) => {
-    io.emit("initBitmexBTCMarketPrice", bitmexBTCMarket);
-    io.emit("initBitmexBTC24hVolume", bitmexBTC24Volume);
+    io.emit("initBitmexBTCMarketPrice", bitmexBTCData.marketPrice);
+    io.emit("initBitmexBTCAskPrice", bitmexBTCData.askPrice);
+    io.emit("initBitmexBTC24hVolume", bitmexBTCData.volume24h);
 });
 
 function createBitmexSubscriptions() {
@@ -42,12 +47,17 @@ function createBitmexSubscriptions() {
         message = JSON.parse(message.data);
         if ('data' in message) {
             if ('markPrice' in message.data[0]) {
-                bitmexBTCMarket = message.data[0].markPrice;
+                bitmexBTCData.marketPrice = message.data[0].markPrice;
                 io.emit("bitmexMarketPrice", message.data[0].markPrice);
             }
 
+            if ('askPrice' in message.data[0]) {
+                bitmexBTCData.askPrice = message.data[0].askPrice;
+                io.emit("bitmexAskPrice", message.data[0].askPrice);
+            }
+
             if ('volume24h' in message.data[0]) {
-                bitmexBTC24Volume = message.data[0].volume24h;
+                bitmexBTCData.volume24h = message.data[0].volume24h;
                 io.emit("bitmex24Volume", message.data[0].volume24h);
             }
         }

@@ -5,6 +5,7 @@ import './App.css';
 import { Card } from 'react-bootstrap';
 import chart from "./Images/chart.png";
 import link from "./Images/link.png"
+import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 
 
 const ENDPOINT = "localhost:3001";
@@ -62,7 +63,19 @@ function App() {
             <Card.Title><strong>BINANCE</strong></Card.Title>
             <Card.Title>${bitmexAskPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Title>
             <Card.Text>Mark: ${bitmexMarketPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Text>
-            <Card.Img src={chart}/>
+            
+            <div className="chartContainer">
+              <TradingViewWidget 
+                symbol="BINANCE:BTCUSDT"
+                theme={Themes.DARK}
+                interval="1"
+                timezone="Australia/Sydney"
+                hide_legend="true"
+                hide_top_toolbar="true"
+                autosize
+              />
+            </div>
+
             <Card.Text>24h Volume: ${bitmex24Volume.toLocaleString("en-US")} <br/> </Card.Text>
           </Card>
 
@@ -73,7 +86,19 @@ function App() {
             <Card.Title><strong>BITFINEX</strong></Card.Title>
             <Card.Title>${bitmexAskPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Title>
             <Card.Text>Mark: ${bitmexMarketPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Text>
-            <Card.Img src={chart}/>
+            
+            <div className="chartContainer">
+              <TradingViewWidget 
+                symbol="BITFINEX:BTCUSD"
+                theme={Themes.DARK}
+                interval="1"
+                timezone="Australia/Sydney"
+                hide_legend="true"
+                hide_top_toolbar="true"
+                autosize
+              />
+            </div>
+
             <Card.Text>24h Volume: ${bitmex24Volume.toLocaleString("en-US")} <br/> </Card.Text>
           </Card>
 
@@ -84,7 +109,19 @@ function App() {
             <Card.Title><strong>BITMEX</strong></Card.Title>
             <Card.Title>${bitmexAskPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Title>
             <Card.Text>Mark: ${bitmexMarketPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Text>
-            <Card.Img src={chart}/>
+            
+            <div className="chartContainer">
+              <TradingViewWidget 
+                symbol="BITMEX:XBTUSD"
+                theme={Themes.DARK}
+                interval="1"
+                timezone="Australia/Sydney"
+                hide_legend="true"
+                hide_top_toolbar="true"
+                autosize
+              />
+            </div>
+
             <Card.Text>24h Volume: ${bitmex24Volume.toLocaleString("en-US")} <br/> </Card.Text>
           </Card>
 
@@ -95,7 +132,19 @@ function App() {
             <Card.Title><strong>COINBASE</strong></Card.Title>
             <Card.Title>${bitmexAskPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Title>
             <Card.Text>Mark: ${bitmexMarketPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Text>
-            <Card.Img src={chart}/>
+            
+            <div className="chartContainer">
+              <TradingViewWidget 
+                symbol="COINBASE:BTCUSD"
+                theme={Themes.DARK}
+                interval="1"
+                timezone="Australia/Sydney"
+                hide_legend="true"
+                hide_top_toolbar="true"
+                autosize
+              />
+            </div>
+
             <Card.Text>24h Volume: ${bitmex24Volume.toLocaleString("en-US")} <br/> </Card.Text>
           </Card>
 
@@ -106,7 +155,19 @@ function App() {
             <Card.Title><strong>DERIBIT</strong></Card.Title>
             <Card.Title>${bitmexAskPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Title>
             <Card.Text>Mark: ${bitmexMarketPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Text>
-            <Card.Img src={chart}/>
+            
+            <div className="chartContainer">
+              <TradingViewWidget 
+                symbol="DERIBIT:BTCPERP"
+                theme={Themes.DARK}
+                interval="1"
+                timezone="Australia/Sydney"
+                hide_legend="true"
+                hide_top_toolbar="true"
+                autosize
+              />
+            </div>
+
             <Card.Text>24h Volume: ${bitmex24Volume.toLocaleString("en-US")} <br/> </Card.Text>
           </Card>
 
@@ -117,7 +178,19 @@ function App() {
             <Card.Title><strong>FTX</strong></Card.Title>
             <Card.Title>${bitmexAskPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Title>
             <Card.Text>Mark: ${bitmexMarketPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Text>
-            <Card.Img src={chart}/>
+            
+            <div className="chartContainer">
+              <TradingViewWidget 
+                symbol="FTX:BTCPERP"
+                theme={Themes.DARK}
+                interval="1"
+                timezone="Australia/Sydney"
+                hide_legend="true"
+                hide_top_toolbar="true"
+                autosize
+              />
+            </div>
+
             <Card.Text>24h Volume: ${bitmex24Volume.toLocaleString("en-US")} <br/> </Card.Text>
           </Card>
  
@@ -128,7 +201,19 @@ function App() {
             <Card.Title><strong>HUOBI</strong></Card.Title>
             <Card.Title>${bitmexAskPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Title>
             <Card.Text>Mark: ${bitmexMarketPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Text>
-            <Card.Img src={chart}/>
+            
+            <div className="chartContainer">
+              <TradingViewWidget 
+                symbol="HUOBI:BTCPERP"
+                theme={Themes.DARK}
+                interval="1"
+                timezone="Australia/Sydney"
+                hide_legend="true"
+                hide_top_toolbar="true"
+                autosize
+              />
+            </div>
+
             <Card.Text>24h Volume: ${bitmex24Volume.toLocaleString("en-US")} <br/> </Card.Text>
           </Card>
  
@@ -139,7 +224,19 @@ function App() {
             <Card.Title><strong>OKEX</strong></Card.Title>
             <Card.Title>${bitmexAskPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Title>
             <Card.Text>Mark: ${bitmexMarketPrice.toLocaleString("en-US", {'minimumFractionDigits':2})}</Card.Text>
-            <Card.Img src={chart}/>
+            
+            <div className="chartContainer">
+              <TradingViewWidget 
+                symbol="OKEX:BTCUSDPERP"
+                theme={Themes.DARK}
+                interval="1"
+                timezone="Australia/Sydney"
+                hide_legend="true"
+                hide_top_toolbar="true"
+                autosize
+              />
+            </div>
+
             <Card.Text>24h Volume: ${bitmex24Volume.toLocaleString("en-US")} <br/> </Card.Text>
           </Card>
  

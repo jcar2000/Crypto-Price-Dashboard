@@ -19,14 +19,16 @@ const io = socketIO(server, {
 
 let bitmexBTCData = {
     marketPrice : 0,
-    askPrice : 0,
-    volume24h : 0
+    lastPrice : 0,
+    volume24h : 0,
+    fundingRate: 0
 };
 
 io.on("connection", (socket) => {
     io.emit("initBitmexBTCMarketPrice", bitmexBTCData.marketPrice);
-    io.emit("initBitmexBTCAskPrice", bitmexBTCData.askPrice);
+    io.emit("initBitmexBTCLastPrice", bitmexBTCData.lastPrice);
     io.emit("initBitmexBTC24hVolume", bitmexBTCData.volume24h);
+    io.emit("initBitmexBTCFundingRate", bitmexBTCData.fundingRate);
 });
 
 function createBitmexSubscriptions() {
@@ -45,21 +47,28 @@ function createBitmexSubscriptions() {
     // MESSAGE
     ws.onmessage = function (message) {
         message = JSON.parse(message.data);
+        //console.log(message);
         if ('data' in message) {
             if ('markPrice' in message.data[0]) {
                 bitmexBTCData.marketPrice = message.data[0].markPrice;
                 io.emit("bitmexMarketPrice", message.data[0].markPrice);
             }
 
-            if ('askPrice' in message.data[0]) {
-                bitmexBTCData.askPrice = message.data[0].askPrice;
-                io.emit("bitmexAskPrice", message.data[0].askPrice);
+            if ('lastPrice' in message.data[0]) {
+                bitmexBTCData.lastPrice = message.data[0].lastPrice;
+                io.emit("bitmexLastPrice", message.data[0].lastPrice);
             }
 
             if ('volume24h' in message.data[0]) {
                 bitmexBTCData.volume24h = message.data[0].volume24h;
                 io.emit("bitmex24Volume", message.data[0].volume24h);
             }
+
+            if ('fundingRate' in message.data[0]) {
+                bitmexBTCData.fundingRate = message.data[0].fundingRate * 100;
+                io.emit("bitmexFundingRate", message.data[0].fundingRate * 100);
+            }
+            
         }
     }
 

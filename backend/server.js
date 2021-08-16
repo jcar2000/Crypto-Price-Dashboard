@@ -102,13 +102,13 @@ function createDeribitSubscriptions() {
         let btcData = {
             "jsonrpc": "2.0",
             "id": 0,
-            "method": "public/get_book_summary_by_instrument",
+            "method": "public/subscribe",
             "params": {
-                "instrument_name": "BTC-PERPETUAL"
+                "channels": ["ticker.BTC-PERPETUAL.raw"]
             }
         };
 
-        setInterval(function () { ws.send(JSON.stringify(btcData)); }, 1000);
+        ws.send(JSON.stringify(btcData));
     }
 
     // MESSAGE
@@ -116,35 +116,36 @@ function createDeribitSubscriptions() {
         message = JSON.parse(message.data);
         //console.log(message);
         
-        if ('result' in message) {
-            if ('mark_price' in message.result[0]) {
-                if (message.result[0].mark_price != deribitBTCData.marketPrice) {
-                    deribitBTCData.marketPrice = message.result[0].mark_price;
-                    io.emit("deribitMarketPrice", message.result[0].mark_price);
+        if ('params' in message) {
+            if ('data' in message.params) {
+                if ('mark_price' in message.params.data) {
+                    if (message.params.data.mark_price != deribitBTCData.marketPrice) {
+                        deribitBTCData.marketPrice = message.params.data.mark_price;
+                        io.emit("deribitMarketPrice", message.params.data.mark_price);
+                    }
                 }
-            }
 
-            if ('last' in message.result[0]) {
-                if (message.result[0].last != deribitBTCData.lastPrice) {
-                    deribitBTCData.lastPrice = message.result[0].last;
-                    io.emit("deribitLastPrice", message.result[0].last);
+                if ('last_price' in message.params.data) {
+                    if (message.params.data.last_price != deribitBTCData.lastPrice) {
+                        deribitBTCData.lastPrice = message.params.data.last_price;
+                        io.emit("deribitLastPrice", message.params.data.last_price);
+                    }
                 }
-            }
 
-            if ('volume_usd' in message.result[0]) {
-                if (message.result[0].volume_usd != deribitBTCData.volume24h) {
-                    deribitBTCData.volume24h = message.result[0].volume_usd;
-                    io.emit("deribit24Volume", message.result[0].volume_usd);
+                if ('stats' in message.params.data) {
+                    if (message.params.data.stats.volume_usd != deribitBTCData.volume24h) {
+                        deribitBTCData.volume24h = message.params.data.stats.volume_usd;
+                        io.emit("deribit24Volume", message.params.data.stats.volume_usd);
+                    }
                 }
-            }
 
-            if ('funding_8h' in message.result[0]) {
-                if (message.result[0].funding_8h * 100 != deribitBTCData.fundingRate) {
-                    deribitBTCData.fundingRate = message.result[0].funding_8h * 100;
-                    io.emit("deribitFundingRate", message.result[0].funding_8h * 100);
+                if ('current_funding' in message.params.data) {
+                    if (message.params.data.current_funding * 100 != deribitBTCData.fundingRate) {
+                        deribitBTCData.fundingRate = message.params.data.current_funding * 100;
+                        io.emit("deribitFundingRate", message.params.data.current_funding * 100);
+                    }
                 }
-            }
-            
+            }    
         }
     }
 
